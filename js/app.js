@@ -17,6 +17,9 @@ function performSearch(searchTerm) {
     data: data,
     success: function(response) {
       showSearchResults(response);
+    },
+    error: function() {
+      alert("Something went wrong. Please try again later.");
     }
   }); 
 }
