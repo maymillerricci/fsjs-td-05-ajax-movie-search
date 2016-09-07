@@ -33,8 +33,10 @@ function showSearchResults(response, searchTerm, searchYear) {
     for (var i = 0; i < response["Search"].length; i++) {
       moviesHtml += buildMovieListItemHtml(response["Search"][i]);
     }
-  } else {
+  } else if (response["Error"] === "Movie not found!") {
     moviesHtml += buildNoMoviesHtml(searchTerm, searchYear);
+  } else {
+    moviesHtml += buildOtherErrorHtml(response["Error"]);
   }
 
   $("#movies").html(moviesHtml);
@@ -63,6 +65,12 @@ function buildNoMoviesHtml(searchTerm, searchYear) {
   }
   
   moviesHtml += ".</li> ";
+  return moviesHtml;
+}
+
+function buildOtherErrorHtml(errorMessage) {
+  var moviesHtml = "<li class='no-movies'><i class='material-icons icon-help'>help_outline</i>";
+  moviesHtml += errorMessage + "</li> ";
   return moviesHtml;
 }
 
