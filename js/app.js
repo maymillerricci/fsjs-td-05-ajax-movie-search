@@ -26,12 +26,15 @@ function showSearchResults(response) {
 }
 
 function buildMovieListItem(movieInfo) {
-  var movieListItem = "<li><div class='poster-wrap'><img class='movie-poster' src='";
-  movieListItem += movieInfo["Poster"];
-  movieListItem += "'></div><span class='movie-title'>";
-  movieListItem += movieInfo["Title"];
-  movieListItem += "</span><span class='movie-year'>";
-  movieListItem += movieInfo["Year"];
-  movieListItem += "</span></li>";
+  var movieListItem = "<li><div class='poster-wrap'>";
+
+  if (movieInfo["Poster"] === "N/A") {
+    movieListItem += "<i class='material-icons poster-placeholder'>crop_original</i>";
+  } else {
+    movieListItem += "<img class='movie-poster' src='" + movieInfo["Poster"] + "'>"
+  }
+
+  movieListItem += "</div><span class='movie-title'>" + movieInfo["Title"] + "</span>";
+  movieListItem += "<span class='movie-year'>" + movieInfo["Year"] + "</span></li>";
   return movieListItem;
 }
