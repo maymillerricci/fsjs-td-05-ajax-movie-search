@@ -3,7 +3,11 @@
 $(".search-form").on("submit", function(e) {
   e.preventDefault();
   var searchTerm = $("#search").val();
-  performSearch(searchTerm);
+  if (searchTerm.length > 1) {
+    performSearch(searchTerm);
+  } else {
+    alert("Please enter a search term of at least 2 characters.")
+  }
 });
 
 function performSearch(searchTerm) {
