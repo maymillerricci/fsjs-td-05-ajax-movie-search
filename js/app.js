@@ -11,10 +11,8 @@ $(".search-form").on("submit", function(e) {
 });
 
 function performSearch(searchTerm) {
-  var url = "http://www.omdbapi.com";
-  var data = {s: searchTerm};
-  $.ajax(url, {
-    data: data,
+  $.ajax("http://www.omdbapi.com", {
+    data: {s: searchTerm},
     success: function(response) {
       showSearchResults(response);
     },
