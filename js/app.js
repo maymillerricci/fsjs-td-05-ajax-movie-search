@@ -19,9 +19,16 @@ function performSearch(searchTerm) {
 
 function showSearchResults(response) {
   var moviesHtml = "";
-  for (var i = 0; i < response["Search"].length; i++) {
-    moviesHtml += buildMovieListItem(response["Search"][i]);
+  
+  if (response["Response"] === "True") {
+    for (var i = 0; i < response["Search"].length; i++) {
+      moviesHtml += buildMovieListItem(response["Search"][i]);
+    }
+  } else {
+    moviesHtml += "<li class='no-movies'><i class='material-icons icon-help'>help_outline</i>No movies found that match: "
+    moviesHtml += $("#search").val() + ".</li> ";
   }
+
   $("#movies").html(moviesHtml);
 }
 
