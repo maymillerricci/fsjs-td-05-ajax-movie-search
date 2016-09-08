@@ -43,7 +43,7 @@ function showSearchResults(response, searchTerm, searchYear) {
 }
 
 function buildMovieListItemHtml(movieInfo) {
-  var movieListItem = "<li><a href='http://www.imdb.com/title/" + movieInfo["imdbID"] + "' target='_blank'>"
+  var movieListItem = "<li><a href='#' class='show-details'>"
   movieListItem += "<div class='poster-wrap'>";
 
   if (movieInfo["Poster"] === "N/A") {
@@ -77,4 +77,29 @@ function buildOtherErrorHtml(errorMessage) {
 
 function isInvalidYear(input) {
   return isNaN(input) || input < 1800 || input > 2500;
+}
+
+
+
+$("#movies").on("click", ".show-details", function(e) {
+  e.preventDefault();
+  $("#movies").hide();
+  var movieDetailsHtml = buildMovieDetailsHtml();
+  $("#movie-details").html(movieDetailsHtml).show();
+});
+
+$("#movie-details").on("click", ".back-to-results", function(e) {
+  e.preventDefault();
+  $("#movie-details").hide();
+  $("#movies").show();
+});
+
+function buildMovieDetailsHtml() {
+  var movieDetails = "<header><a href='#'' class='back-to-results'><strong><</strong> Search results</a>";
+  movieDetails += "<h1>" + "The Yellow Sea" + " (" + "2010" + ")</h1>";
+  movieDetails += "<h4>IMDb rating: " + "7.4" + "</h4></header> ";
+  movieDetails += "<figure><img src='" + "http://ia.media-imdb.com/images/M/MV5BMTQ1MjQwMTE5OF5BMl5BanBnXkFtZTgwNjk3MTcyMDE@._V1_SX300.jpg" + "' class='details-poster'></figure>";
+  movieDetails += "<section><h3>Plot synopsis:</h3><p>" + "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text." + "</p>";
+  movieDetails += "<a href='#' class='imdb-link'>View on IMDb</a></section>";
+  return movieDetails;           
 }

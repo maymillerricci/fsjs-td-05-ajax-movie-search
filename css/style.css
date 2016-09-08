@@ -150,31 +150,32 @@ button {
 
 /* MOVIE DETAILS COMPONENTS -------- */
 
-.movie-details header {
+#movie-details header {
   background-color: #436060;
   padding: 20px;
 }
 
-.movie-details h1 {
+#movie-details h1 {
   color: #d5dbdb;
 }
 
-.movie-details h4, .back-to-results {
+#movie-details h4, .back-to-results {
   color: #abb8b8;
 }
 
-.movie-details h1, .movie-details h4 {
+#movie-details h1, #movie-details h4 {
   margin-left: 380px;
 }
 
-.movie-details h4 {
+#movie-details h4 {
   font-weight: 500;
   padding-left: 10px;
   margin-top: -20px
 }
 
-.movie-details p {
-  margin-right: 60px
+#movie-details p {
+  margin-right: 60px;
+  margin-bottom: 30px;
 }
 
 .details-poster {
@@ -193,8 +194,7 @@ a.imdb-link {
   font-size: 16px;
   width: 200px;
   border-radius: 8px;
-  margin-left: 540px;
-  margin-top: 30px;
+  margin-left: 200px;
 }
 
 /* ================================= 
