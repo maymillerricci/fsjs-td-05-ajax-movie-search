@@ -148,6 +148,55 @@ button {
   margin: auto;
 }
 
+/* MOVIE DETAILS COMPONENTS -------- */
+
+.movie-details header {
+  background-color: #436060;
+  padding: 20px;
+}
+
+.movie-details h1 {
+  color: #d5dbdb;
+}
+
+.movie-details h4, .back-to-results {
+  color: #abb8b8;
+}
+
+.movie-details h1, .movie-details h4 {
+  margin-left: 380px;
+}
+
+.movie-details h4 {
+  font-weight: 500;
+  padding-left: 10px;
+  margin-top: -20px
+}
+
+.movie-details p {
+  margin-right: 60px
+}
+
+.details-poster {
+  float: left;
+  margin-right: 40px;
+  margin-top: -140px;
+  border: 10px solid white;
+}
+
+a.imdb-link {
+  background-color: #00b3b3;
+  color: white;
+  padding: 16px 22px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  width: 200px;
+  border-radius: 8px;
+  margin-left: 540px;
+  margin-top: 30px;
+}
+
 /* ================================= 
   Layout Styles
 ==================================== */
