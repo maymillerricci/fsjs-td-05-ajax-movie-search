@@ -43,7 +43,8 @@ function showSearchResults(response, searchTerm, searchYear) {
 }
 
 function buildMovieListItemHtml(movieInfo) {
-  var movieListItem = "<li><div class='poster-wrap'>";
+  var movieListItem = "<li><a href='http://www.imdb.com/title/" + movieInfo["imdbID"] + "' target='_blank'>"
+  movieListItem += "<div class='poster-wrap'>";
 
   if (movieInfo["Poster"] === "N/A") {
     movieListItem += "<i class='material-icons poster-placeholder'>crop_original</i>";
@@ -52,7 +53,7 @@ function buildMovieListItemHtml(movieInfo) {
   }
 
   movieListItem += "</div><span class='movie-title'>" + movieInfo["Title"] + "</span>";
-  movieListItem += "<span class='movie-year'>" + movieInfo["Year"] + "</span></li>";
+  movieListItem += "<span class='movie-year'>" + movieInfo["Year"] + "</span></a></li>";
   return movieListItem;
 }
 
