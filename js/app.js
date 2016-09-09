@@ -43,7 +43,7 @@ function showSearchResults(response, searchTerm, searchYear) {
 }
 
 function buildMovieListItemHtml(movieInfo) {
-  var movieListItem = "<li><a href='#' class='show-details'>"
+  var movieListItem = "<li><a href='#' class='show-details' data-imdb-id='" + movieInfo["imdbID"] + "'>"
   movieListItem += "<div class='poster-wrap'>";
 
   if (movieInfo["Poster"] === "N/A") {
@@ -83,9 +83,18 @@ function isInvalidYear(input) {
 
 $("#movies").on("click", ".show-details", function(e) {
   e.preventDefault();
-  $("#movies").hide();
-  var movieDetailsHtml = buildMovieDetailsHtml();
-  $("#movie-details").html(movieDetailsHtml).show();
+  var imdbId = $(this).data("imdb-id");
+  $.ajax("http://www.omdbapi.com", {
+    data: {i: imdbId, plot: "full"},
+    success: function(response) {
+      $("#movies").hide();
+      var movieDetailsHtml = buildMovieDetailsHtml(response);
+      $("#movie-details").html(movieDetailsHtml).show();
+    },
+    error: function() {
+      alert("Something went wrong. Please try again later.");
+    }
+  }); 
 });
 
 $("#movie-details").on("click", ".back-to-results", function(e) {
@@ -94,12 +103,13 @@ $("#movie-details").on("click", ".back-to-results", function(e) {
   $("#movies").show();
 });
 
-function buildMovieDetailsHtml() {
+function buildMovieDetailsHtml(movieInfo) {
   var movieDetails = "<header><a href='#'' class='back-to-results'><strong><</strong> Search results</a>";
-  movieDetails += "<h1>" + "The Yellow Sea" + " (" + "2010" + ")</h1>";
-  movieDetails += "<h4>IMDb rating: " + "7.4" + "</h4></header> ";
-  movieDetails += "<figure><img src='" + "http://ia.media-imdb.com/images/M/MV5BMTQ1MjQwMTE5OF5BMl5BanBnXkFtZTgwNjk3MTcyMDE@._V1_SX300.jpg" + "' class='details-poster'></figure>";
-  movieDetails += "<section><h3>Plot synopsis:</h3><p>" + "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text." + "</p>";
-  movieDetails += "<a href='#' class='imdb-link'>View on IMDb</a></section>";
+  movieDetails += "<h1>" + movieInfo["Title"] + " (" + movieInfo["Year"] + ")</h1>";
+  movieDetails += "<h4>IMDb rating: " + movieInfo["imdbRating"] + "</h4></header> ";
+  movieDetails += "<figure><img src='" + movieInfo["Poster"] + "' class='details-poster'></figure>";
+  movieDetails += "<section><h3>Plot synopsis:</h3><p>" + movieInfo["Plot"] + "</p>";
+  movieDetails += "<a href='http://www.imdb.com/title/" + movieInfo["imdbID"] + "' target='_blank' ";
+  movieDetails += "class='imdb-link'>View on IMDb</a></section>";
   return movieDetails;           
 }
