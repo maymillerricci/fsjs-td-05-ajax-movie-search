@@ -106,9 +106,15 @@ $("#movie-details").on("click", ".back-to-results", function(e) {
 function buildMovieDetailsHtml(movieInfo) {
   var movieDetails = "<header><a href='#'' class='back-to-results'><strong><</strong> Search results</a>";
   movieDetails += "<h1>" + movieInfo["Title"] + " (" + movieInfo["Year"] + ")</h1>";
-  movieDetails += "<h4>IMDb rating: " + movieInfo["imdbRating"] + "</h4></header> ";
-  movieDetails += "<figure><img src='" + movieInfo["Poster"] + "' class='details-poster'></figure>";
-  movieDetails += "<section><h3>Plot synopsis:</h3><p>" + movieInfo["Plot"] + "</p>";
+  movieDetails += "<h4>IMDb rating: " + movieInfo["imdbRating"] + "</h4></header> <figure class='details-poster'>"
+
+  if (movieInfo["Poster"] === "N/A") {
+    movieDetails += "<div class='poster-wrap'><i class='material-icons poster-placeholder'>crop_original</i></div>";
+  } else {
+    movieDetails += "<img src='" + movieInfo["Poster"] + "'>";
+  }
+
+  movieDetails += "</figure><section><h3>Plot synopsis:</h3><p>" + movieInfo["Plot"] + "</p>";
   movieDetails += "<a href='http://www.imdb.com/title/" + movieInfo["imdbID"] + "' target='_blank' ";
   movieDetails += "class='imdb-link'>View on IMDb</a></section>";
   return movieDetails;           

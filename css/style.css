@@ -181,8 +181,14 @@ button {
 .details-poster {
   float: left;
   margin-right: 40px;
-  margin-top: -140px;
+  margin-top: -124px;
   border: 10px solid white;
+  margin-bottom: 700px;
+}
+
+.details-poster .poster-wrap {
+  width: 300px;
+  height: 400px;
 }
 
 a.imdb-link {
