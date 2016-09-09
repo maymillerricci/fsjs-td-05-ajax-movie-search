@@ -21,7 +21,7 @@ $("#movies").on("click", ".show-details", function(e) {
   e.preventDefault();
   var imdbId = $(this).data("imdb-id");
   $.ajax("http://www.omdbapi.com", {
-    data: {i: imdbId, plot: "full"},
+    data: {i: imdbId, plot: "full", r: "json"},
     success: function(response) {
       $("#movies").hide();
       var movieDetailsHtml = buildMovieDetailsHtml(response);
@@ -43,7 +43,7 @@ $("#movie-details").on("click", ".back-to-results", function(e) {
 // send ajax request to api to get movies data based on search inputs
 function performSearch(searchTerm, searchYear) {
   $.ajax("http://www.omdbapi.com", {
-    data: {s: searchTerm, y: searchYear},
+    data: {s: searchTerm, y: searchYear, r: "json"},
     success: function(response) {
       showSearchResults(response, searchTerm, searchYear);
     },
@@ -110,8 +110,9 @@ function buildOtherErrorHtml(errorMessage) {
 
 // return markup for individual movie details page
 function buildMovieDetailsHtml(movieInfo) {
-  var movieDetails = "<header><a href='#'' class='back-to-results'><strong><</strong> Search results</a>";
-  movieDetails += "<h1>" + movieInfo["Title"] + " (" + movieInfo["Year"] + ")</h1>";
+  var movieDetails = "<header><a href='#' class='back-to-results'><strong><</strong> Search results</a>";
+  movieDetails += "<a href='http://www.imdb.com/title/" + movieInfo["imdbID"] + "' target='_blank'>";
+  movieDetails += "<h1>" + movieInfo["Title"] + " (" + movieInfo["Year"] + ")</h1></a>";
   movieDetails += "<h4>IMDb rating: " + movieInfo["imdbRating"] + "</h4></header> <figure class='details-poster'>";
 
   if (movieInfo["Poster"] === "N/A") {
