@@ -1,5 +1,6 @@
 "use strict";
 
+// on click search, check for valid search inputs and perform search if valid
 $(".search-form").on("submit", function(e) {
   e.preventDefault();
   var searchTerm = $("#search").val();
@@ -14,6 +15,8 @@ $(".search-form").on("submit", function(e) {
   }
 });
 
+// on click on movie, send ajax request to api for individual movie info 
+// and show movie details page w/that info
 $("#movies").on("click", ".show-details", function(e) {
   e.preventDefault();
   var imdbId = $(this).data("imdb-id");
@@ -30,12 +33,14 @@ $("#movies").on("click", ".show-details", function(e) {
   }); 
 });
 
+// on click back, hide movie details and show movies list
 $("#movie-details").on("click", ".back-to-results", function(e) {
   e.preventDefault();
   $("#movie-details").hide();
   $("#movies").show();
 });
 
+// send ajax request to api to get movies data based on search inputs
 function performSearch(searchTerm, searchYear) {
   $.ajax("http://www.omdbapi.com", {
     data: {s: searchTerm, y: searchYear},
@@ -48,6 +53,9 @@ function performSearch(searchTerm, searchYear) {
   }); 
 }
 
+// show markup on movies page:
+// if results, loop through them adding list items for each movie
+// otherwise, display error message
 function showSearchResults(response, searchTerm, searchYear) {
   var moviesHtml = "";
   
@@ -64,6 +72,7 @@ function showSearchResults(response, searchTerm, searchYear) {
   $("#movies").html(moviesHtml);
 }
 
+// return markup for individual movie list item on movies page
 function buildMovieListItemHtml(movieInfo) {
   var movieListItem = "<li><a href='#' class='show-details' data-imdb-id='" + movieInfo["imdbID"] + "'>";
   movieListItem += "<div class='poster-wrap'>";
@@ -79,6 +88,7 @@ function buildMovieListItemHtml(movieInfo) {
   return movieListItem;
 }
 
+// return markup to display when no movies are found matching the search inputs
 function buildNoMoviesHtml(searchTerm, searchYear) {
   var moviesHtml = "<li class='no-movies'><i class='material-icons icon-help'>help_outline</i>No movies found that match: ";
   moviesHtml += searchTerm;
@@ -91,12 +101,14 @@ function buildNoMoviesHtml(searchTerm, searchYear) {
   return moviesHtml;
 }
 
+// return markup to display if something else goes wrong
 function buildOtherErrorHtml(errorMessage) {
   var moviesHtml = "<li class='no-movies'><i class='material-icons icon-help'>help_outline</i>";
   moviesHtml += errorMessage + "</li> ";
   return moviesHtml;
 }
 
+// return markup for individual movie details page
 function buildMovieDetailsHtml(movieInfo) {
   var movieDetails = "<header><a href='#'' class='back-to-results'><strong><</strong> Search results</a>";
   movieDetails += "<h1>" + movieInfo["Title"] + " (" + movieInfo["Year"] + ")</h1>";
@@ -114,6 +126,7 @@ function buildMovieDetailsHtml(movieInfo) {
   return movieDetails;           
 }
 
+// check whether input is a valid year for a movie
 function isInvalidYear(input) {
   return isNaN(input) || input < 1800 || input > 2500;
 }
