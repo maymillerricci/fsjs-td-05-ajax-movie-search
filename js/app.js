@@ -14,6 +14,28 @@ $(".search-form").on("submit", function(e) {
   }
 });
 
+$("#movies").on("click", ".show-details", function(e) {
+  e.preventDefault();
+  var imdbId = $(this).data("imdb-id");
+  $.ajax("http://www.omdbapi.com", {
+    data: {i: imdbId, plot: "full"},
+    success: function(response) {
+      $("#movies").hide();
+      var movieDetailsHtml = buildMovieDetailsHtml(response);
+      $("#movie-details").html(movieDetailsHtml).show();
+    },
+    error: function() {
+      alert("Something went wrong. Please try again later.");
+    }
+  }); 
+});
+
+$("#movie-details").on("click", ".back-to-results", function(e) {
+  e.preventDefault();
+  $("#movie-details").hide();
+  $("#movies").show();
+});
+
 function performSearch(searchTerm, searchYear) {
   $.ajax("http://www.omdbapi.com", {
     data: {s: searchTerm, y: searchYear},
@@ -43,7 +65,7 @@ function showSearchResults(response, searchTerm, searchYear) {
 }
 
 function buildMovieListItemHtml(movieInfo) {
-  var movieListItem = "<li><a href='#' class='show-details' data-imdb-id='" + movieInfo["imdbID"] + "'>"
+  var movieListItem = "<li><a href='#' class='show-details' data-imdb-id='" + movieInfo["imdbID"] + "'>";
   movieListItem += "<div class='poster-wrap'>";
 
   if (movieInfo["Poster"] === "N/A") {
@@ -75,38 +97,10 @@ function buildOtherErrorHtml(errorMessage) {
   return moviesHtml;
 }
 
-function isInvalidYear(input) {
-  return isNaN(input) || input < 1800 || input > 2500;
-}
-
-
-
-$("#movies").on("click", ".show-details", function(e) {
-  e.preventDefault();
-  var imdbId = $(this).data("imdb-id");
-  $.ajax("http://www.omdbapi.com", {
-    data: {i: imdbId, plot: "full"},
-    success: function(response) {
-      $("#movies").hide();
-      var movieDetailsHtml = buildMovieDetailsHtml(response);
-      $("#movie-details").html(movieDetailsHtml).show();
-    },
-    error: function() {
-      alert("Something went wrong. Please try again later.");
-    }
-  }); 
-});
-
-$("#movie-details").on("click", ".back-to-results", function(e) {
-  e.preventDefault();
-  $("#movie-details").hide();
-  $("#movies").show();
-});
-
 function buildMovieDetailsHtml(movieInfo) {
   var movieDetails = "<header><a href='#'' class='back-to-results'><strong><</strong> Search results</a>";
   movieDetails += "<h1>" + movieInfo["Title"] + " (" + movieInfo["Year"] + ")</h1>";
-  movieDetails += "<h4>IMDb rating: " + movieInfo["imdbRating"] + "</h4></header> <figure class='details-poster'>"
+  movieDetails += "<h4>IMDb rating: " + movieInfo["imdbRating"] + "</h4></header> <figure class='details-poster'>";
 
   if (movieInfo["Poster"] === "N/A") {
     movieDetails += "<div class='poster-wrap'><i class='material-icons poster-placeholder'>crop_original</i></div>";
@@ -118,4 +112,8 @@ function buildMovieDetailsHtml(movieInfo) {
   movieDetails += "<a href='http://www.imdb.com/title/" + movieInfo["imdbID"] + "' target='_blank' ";
   movieDetails += "class='imdb-link'>View on IMDb</a></section>";
   return movieDetails;           
+}
+
+function isInvalidYear(input) {
+  return isNaN(input) || input < 1800 || input > 2500;
 }
